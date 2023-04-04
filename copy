@@ -1,0 +1,27 @@
+import axios from "axios";
+
+axios.defaults.baseURL = process.env.REACT_APP_BASEURL;
+
+//Setting Defaults
+export const AxiosHandler = (
+  exceptBaseURL = "",
+  method = "GET",
+  token = false,
+  payload,
+  headers
+) => {
+  axios.defaults.headers.common["authtoken"] = token
+    ? localStorage.getItem("authToken")
+    : "";
+  //
+
+  return axios({
+    url: exceptBaseURL,
+    method: method.toLowerCase(),
+    data: payload,
+    headers: {
+      "Content-Type": "application/json",
+      ...(headers ? headers : {}),
+    },
+  });
+};
